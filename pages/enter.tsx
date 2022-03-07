@@ -32,14 +32,38 @@ function SignInButton() {
       console.error(error);
     }
   };
+
+  const signInAnonymously = async () => {
+    console.log('signInAnonymously');
+    try {
+      await auth.signInAnonymously();
+      console.log(auth.currentUser);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <button
-      className='text-3xl font-extralight bg-black text-white py-4 px-6 flex justify-between items-center'
-      onClick={signIn}
-    >
-      <Image src='/static/googleIcon.png' alt='google' width='30' height='30' />
-      <p className='ml-4'> Sign In With Google</p>
-    </button>
+    <div className='flex flex-col justify-center items-center'>
+      <button
+        className='text-3xl font-extralight bg-black text-white py-4 px-6 flex justify-between items-center w-2/3'
+        onClick={signIn}
+      >
+        <Image
+          src='/static/googleIcon.png'
+          alt='google'
+          width='30'
+          height='30'
+        />
+        <p className='ml-4 w-full text-center'>Sign In With Google</p>
+      </button>
+      <button
+        className=' mt-4 text-3xl font-extralight bg-black text-white py-4 px-6 flex justify-between items-center w-2/3'
+        onClick={signInAnonymously}
+      >
+        <p className='w-full text-center'> Sign In With Anonymously</p>
+      </button>
+    </div>
   );
 }
 

@@ -10,16 +10,25 @@ import { auth, firestore, serverTimestamp } from '../../lib/firebase';
 import AuthCheck from '../../components/AuthCheck';
 import Loader from '../../components/Loader';
 import ImageUploader from '../../components/ImageUploader';
+import MarkdownManual from '../../components/MarkdownManual';
 
 export default function AdminPostEdit() {
+  const [showMarkdown, setShowMarkdown] = useState(false);
   return (
     <AuthCheck>
-      <PostManager />
+      <div className={showMarkdown && 'blur'}>
+        <PostManager setShowMarkdown={setShowMarkdown} />
+      </div>
+      {showMarkdown && (
+        <div className='absolute left-60 top-40'>
+          <MarkdownManual setShowMarkdown={setShowMarkdown} />
+        </div>
+      )}
     </AuthCheck>
   );
 }
 
-function PostManager() {
+function PostManager({ setShowMarkdown }) {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -63,6 +72,12 @@ function PostManager() {
 
           <aside className='flex flex-col justify-center mt-3 lg:w-1/4 lg:mt-12'>
             <p className='text-lg text-center font-semibold '>Tools</p>
+            <button
+              className='mt-3 px-6 py-3 text-lg bg-black text-white'
+              onClick={() => setShowMarkdown(true)}
+            >
+              Show Markdown Manual
+            </button>
             <button
               className='mt-3 px-6 py-3 text-lg bg-black text-white'
               onClick={() => setPreview((prev) => !prev)}
