@@ -16,7 +16,7 @@ export default function AdminPostEdit() {
   const [showMarkdown, setShowMarkdown] = useState(false);
   return (
     <AuthCheck>
-      <div className={showMarkdown && 'blur'}>
+      <div className={showMarkdown ? 'blur' : ''}>
         <PostManager setShowMarkdown={setShowMarkdown} />
       </div>
       {showMarkdown && (

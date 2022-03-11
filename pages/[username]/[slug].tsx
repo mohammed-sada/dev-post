@@ -10,7 +10,7 @@ import AuthCheck from '../../components/AuthCheck';
 import {
   firestore,
   getUserDocFromUsername,
-  postToJson,
+  docToJson,
 } from '../../lib/firebase';
 
 export async function getStaticProps({ params }) {
@@ -30,7 +30,7 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  post = postToJson(post);
+  post = docToJson(post);
   const path = postDoc.path;
 
   return {

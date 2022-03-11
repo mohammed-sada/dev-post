@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useState } from 'react';
 
-import { firestore, fromMillis, postToJson } from '../lib/firebase';
+import { firestore, fromMillis, docToJson } from '../lib/firebase';
 import Loader from '../components/Loader';
 import Posts from '../components/Posts';
 import Metatags from '../components/Metatags';
@@ -16,7 +16,7 @@ export async function getServerSideProps() {
     .orderBy('createdAt', 'desc')
     .limit(LIMIT);
 
-  const posts = (await query.get()).docs.map(postToJson);
+  const posts = (await query.get()).docs.map(docToJson);
 
   return {
     props: {
@@ -46,7 +46,7 @@ export default function HomePage(props) {
         .startAfter(cursor) // return posts after this date
         .limit(LIMIT);
 
-      const newPosts = (await query.get()).docs.map(postToJson);
+      const newPosts = (await query.get()).docs.map(docToJson);
 
       setPosts((prevPosts) => prevPosts.concat(newPosts));
       setLoading(false);

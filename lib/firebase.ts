@@ -39,13 +39,13 @@ export async function getUserDocFromUsername(username: string) {
   }
 }
 
-export function postToJson(doc) {
-  const post = doc.data();
-  const createdAt = post.createdAt.toMillis(); // convert firebase Timestamp to a number
-  const updatedAt = post.updatedAt.toMillis();
+export function docToJson(doc) {
+  const data = doc.data();
+  const createdAt = data.createdAt?.toMillis(); // convert firebase Timestamp to a number
+  const updatedAt = data.updatedAt?.toMillis();
 
   return {
-    ...post,
+    ...data,
     createdAt,
     updatedAt,
   };

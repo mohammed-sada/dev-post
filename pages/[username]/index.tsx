@@ -1,5 +1,5 @@
 import React from 'react';
-import { getUserDocFromUsername, postToJson } from '../../lib/firebase';
+import { getUserDocFromUsername, docToJson } from '../../lib/firebase';
 
 import Posts from '../../components/Posts';
 import UserProfile from '../../components/UserProfile';
@@ -28,7 +28,7 @@ export async function getServerSideProps({ query }) {
       .where('published', '==', true)
       .orderBy('createdAt', 'desc')
       .limit(5);
-    const posts = (await query.get()).docs.map(postToJson);
+    const posts = (await query.get()).docs.map(docToJson);
 
     return {
       props: {
