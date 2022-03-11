@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { useDocumentData, useCollection } from 'react-firebase-hooks/firestore';
 
 import Metatags from '../../components/Metatags';
 import PostContent from '../../components/PostContent';
@@ -31,12 +31,13 @@ export async function getStaticProps({ params }) {
   }
 
   post = docToJson(post);
-  const path = postDoc.path;
-
+  const postPath = postDoc.path;
+  const commentsPath = postDoc.collection('comments').path;
   return {
     props: {
       post,
-      path,
+      postPath,
+      commentsPath,
     },
     revalidate: 5000, // re-generate this post on the server when new req comes in, but only do so in a certain time intervals => every 5sec(in this case)
   };
@@ -58,9 +59,15 @@ export async function getStaticPaths() {
 }
 
 export default function PostPage(props) {
-  const postRef = firestore.doc(props.path);
+  const postRef = firestore.doc(props.postPath);
+  const commentsRef = firestore.collection(props.commentsPath);
   // @ts-ignore:next-line
   const [realTimePost] = useDocumentData(postRef); // Retrieve and monitor a document value in Cloud Firestore. this hook will get a feed of the post data in real-time
+  // @ts-ignore:next-line
+  const [realTimeComments] = useCollection(commentsRef);
+  const postComments = realTimeComments?.docs.map((comment) =>
+    docToJson(comment, comment.id)
+  );
 
   const post = realTimePost || props.post; // When realTimePost data is not fetched yet, fallback to the ssr data
   return (
@@ -68,7 +75,7 @@ export default function PostPage(props) {
       <Metatags title={post.title} description={post.content} />
 
       <div className='flex justify-center items-start'>
-        <PostContent post={post} />
+        <PostContent post={post} postComments={postComments} />
 
         <aside className='w-1/6  mt-4 p-10 border border-gray-400 bg-white flex flex-col justify-center items-center'>
           {post.heartCount > 0 && (

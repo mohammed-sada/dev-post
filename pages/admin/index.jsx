@@ -58,6 +58,7 @@ function CreatePost() {
       content: '# Hello World!',
       published: false,
       heartCount: 0,
+      commentCount: 0,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     };

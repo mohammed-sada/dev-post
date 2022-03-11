@@ -1,9 +1,13 @@
 import Link from 'next/link';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { auth } from '../lib/firebase';
 
-export default function PostContent({ post }) {
+import { auth, docToJson } from '../lib/firebase';
+import AuthCheck from './AuthCheck';
+import Comment from '../components/Comment';
+import CommentForm from './CommentForm';
+
+export default function PostContent({ post, postComments }) {
   const { title, username, content, slug, uid } = post;
   const createdAt: Date =
     typeof post.createdAt === 'number'
@@ -24,11 +28,35 @@ export default function PostContent({ post }) {
       <p className='text-xl font-semibold mt-4 mb-10'>
         Written by
         <Link href={`/${username}`}>
-          <a className='text-blue-900'> @{username} </a>
+          <a className='text-blue-900 italic'> @{username} </a>
         </Link>
         on {createdAt.toISOString().slice(0, 10)}
       </p>
       <ReactMarkdown className='text-2xl'>{content}</ReactMarkdown>
+
+      {/* Comments */}
+      {postComments && postComments.length > 0 && (
+        <div className='bg-gray-200 p-4 mt-10'>
+          <h2 className='mb-5 text-2xl font-bold'>Comments</h2>
+          {postComments.map((comment, idx) => {
+            return (
+              <Comment key={idx} {...comment} postSlug={slug} postUid={uid} />
+            );
+          })}
+        </div>
+      )}
+
+      <AuthCheck
+        fallback={
+          <div className='mt-5 text-center font-bold'>
+            <Link href='/enter'>
+              <a> 💗 Sign Up to create a comment</a>
+            </Link>
+          </div>
+        }
+      >
+        <CommentForm postSlug={slug} username={username} postUid={uid} />
+      </AuthCheck>
     </section>
   );
 }
