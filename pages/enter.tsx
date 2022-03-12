@@ -8,18 +8,15 @@ import Loader from '../components/Loader';
 import Metatags from '../components/Metatags';
 
 export default function EnterPage() {
-  const { user, username } = useContext(UserContext);
+  const { user, username, loading } = useContext(UserContext);
+
+  if (loading) {
+    return <Loader fullPage />;
+  }
   return (
     <section className='m-10 px-6'>
       <Metatags title='Enter' />
-
-      {!user ? (
-        <SignInButton />
-      ) : !username ? (
-        <UsernameForm />
-      ) : (
-        <LogOutButton />
-      )}
+      {!user ? <SignInButton /> : !username && <UsernameForm />}
     </section>
   );
 }
@@ -62,24 +59,6 @@ function SignInButton() {
         <p className='w-full text-center'> Sign In With Anonymously</p>
       </button>
     </div>
-  );
-}
-
-function LogOutButton() {
-  const signOut = async () => {
-    try {
-      await auth.signOut();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  return (
-    <button
-      className='text-3xl font-extralight bg-black text-white py-4 px-6'
-      onClick={signOut}
-    >
-      Sign Out
-    </button>
   );
 }
 
