@@ -54,10 +54,10 @@ function PostManager({ setShowMarkdown }) {
     }
   };
   return (
-    <main className='p-16 bg-gray-200 min-h-screen flex flex-col lg:flex-row lg:items-start'>
+    <main className='p-4 lg:p-16 bg-gray-200 min-h-screen flex flex-col lg:flex-row lg:items-start'>
       {post && (
         <>
-          <section className='w-3/4 mr-4'>
+          <section className='lg:w-3/4 mr-4'>
             <h2 className='mb-2 text-3xl font-extralight capitalize'>
               {post.title}
             </h2>
@@ -130,14 +130,14 @@ function PostForm({ defaultValues, postRef, preview }) {
   return (
     <>
       {preview ? (
-        <div className='p-4 bg-white w-full min-h-screen'>
+        <div className='bg-white w-full p-4'>
           <ReactMarkdown>{watch('content')}</ReactMarkdown>
         </div>
       ) : (
         <form onSubmit={handleSubmit(updatePost)}>
           <ImageUploader />
           <textarea
-            className='h-64 p-4 outline-none text-xl w-full'
+            className='h-64 p-4 outline-none w-full'
             name='content'
             {...register('content', {
               required: { value: true, message: 'Content is required !' },
@@ -160,7 +160,7 @@ function PostForm({ defaultValues, postRef, preview }) {
 
           <button
             type='submit'
-            className='w-full h-14 flex justify-center items-center my-4 px-6 py-3 text-lg bg-black text-white cursor-pointer disabled:cursor-not-allowed disabled:opacity-70 lg:w-1/2'
+            className='w-full lg:w-1/2 h-14 flex justify-center items-center my-4 px-6 py-3 text-lg bg-black text-white cursor-pointer disabled:cursor-not-allowed disabled:opacity-70 '
             disabled={loading || !isValid || !isDirty}
           >
             {loading ? <Loader /> : 'Save Changes'}

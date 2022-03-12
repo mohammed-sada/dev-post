@@ -58,14 +58,14 @@ export default function ImageUploader() {
               type='file'
               onChange={uploadFile}
               accept='image/x-png,image/gif,image/jpeg'
-              className='opacity-0 -z-10 absolute'
+              className='w-0 h-0'
             />
           </label>
         </>
       )}
 
       {downloadURL && (
-        <code className='p-2 text-sm bg-white block mt-4'>{`![alt](${downloadURL})`}</code>
+        <code className='overflow-x-auto p-2 text-sm bg-white block mt-4'>{`![alt](${downloadURL})`}</code>
       )}
     </div>
   );

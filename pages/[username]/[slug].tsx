@@ -61,6 +61,7 @@ export async function getStaticPaths() {
 export default function PostPage(props) {
   const postRef = firestore.doc(props.postPath);
   const commentsRef = firestore.collection(props.commentsPath);
+
   // @ts-ignore:next-line
   const [realTimePost] = useDocumentData(postRef); // Retrieve and monitor a document value in Cloud Firestore. this hook will get a feed of the post data in real-time
   // @ts-ignore:next-line
@@ -71,13 +72,13 @@ export default function PostPage(props) {
 
   const post = realTimePost || props.post; // When realTimePost data is not fetched yet, fallback to the ssr data
   return (
-    <div className='bg-gray-200 min-h-screen p-10'>
+    <div className='bg-gray-200 min-h-screen p-2 lg:p-10'>
       <Metatags title={post.title} description={post.content} />
 
-      <div className='flex justify-center items-start'>
+      <div className='flex flex-col justify-center items-center lg:flex-row '>
         <PostContent post={post} postComments={postComments} />
 
-        <aside className='w-1/6  mt-4 p-10 border border-gray-400 bg-white flex flex-col justify-center items-center'>
+        <aside className='w-full lg:w-1/6 mt-4 p-10 border border-gray-400 bg-white flex flex-col justify-center items-center'>
           {post.heartCount > 0 && (
             <p className='text-4xl'>{post.heartCount} ♥</p>
           )}

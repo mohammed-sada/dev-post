@@ -72,13 +72,13 @@ function CreatePost() {
         className='mx-20 mt-10 flex flex-col justify-center items-start'
         onSubmit={createPost}
       >
-        <h1 className='capitalize mb-10 text-4xl text-center'>
+        <h1 className='capitalize mb-4 lg:mb-10 text-xl lg:text-4xl text-center'>
           create a new post !
         </h1>
         <input
           type='text'
           placeholder='My Article'
-          className='border border-black outline-none px-8 py-4 text-2xl'
+          className='border border-black outline-none px-8 py-4 lg:text-2xl'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />

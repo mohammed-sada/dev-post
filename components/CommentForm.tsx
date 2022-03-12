@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { auth, firestore, increment, serverTimestamp } from '../lib/firebase';
 
-export default function CommentForm({ postSlug, username, postUid }) {
+export default function CommentForm({ postSlug, postUid }) {
   const [comment, setComment] = useState('');
 
   const handleSubmit = async (e) => {
@@ -9,8 +9,10 @@ export default function CommentForm({ postSlug, username, postUid }) {
       e.preventDefault();
 
       if (comment.length < 1) return;
+      setComment('');
 
       const uid = auth.currentUser.uid;
+      const user = await firestore.collection('users').doc(uid).get();
 
       const commentRef = firestore
         .collection('users')
@@ -28,7 +30,7 @@ export default function CommentForm({ postSlug, username, postUid }) {
 
       const commentData = {
         content: comment,
-        username,
+        username: user.data().username,
         uid,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
@@ -39,23 +41,21 @@ export default function CommentForm({ postSlug, username, postUid }) {
       batch.update(postRef, { commentCount: increment(1) });
 
       await batch.commit();
-
-      setComment('');
     } catch (error) {
       console.error(error);
     }
   };
   return (
-    <form className='mt-5' onSubmit={handleSubmit}>
-      <div className='pl-6 pr-3 py-3 w-full rounded-full border border-black'>
+    <form className='mt-8' onSubmit={handleSubmit}>
+      <div className='flex justify-between pl-6 pr-3 py-3 w-full rounded-full border border-black'>
         <input
-          className='w-11/12  outline-none'
+          className=' outline-none'
           type='text'
           placeholder='Write a commnet...'
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
-        <button type='submit' className='w-1/12 font-bold'>
+        <button type='submit' className='font-bold'>
           Submit
         </button>
       </div>

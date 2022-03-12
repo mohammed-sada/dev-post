@@ -34,10 +34,8 @@ function SignInButton() {
   };
 
   const signInAnonymously = async () => {
-    console.log('signInAnonymously');
     try {
       await auth.signInAnonymously();
-      console.log(auth.currentUser);
     } catch (error) {
       console.error(error);
     }
@@ -100,7 +98,6 @@ function UsernameForm() {
     debounce(async (username) => {
       // debounce: prevent the excution of this function untill the last event(changing the username input in this case) has stopped firing after a delay of 500ms
       if (username.length >= 3) {
-        console.log('Firestore read executed!');
         try {
           const ref = await firestore.doc(`usernames/${username}`).get();
           setIsValid(!ref.exists); // if the username is not taken, then your chosen username is valid

@@ -3,7 +3,25 @@ import Link from 'next/link';
 import { auth, firestore, increment, serverTimestamp } from '../lib/firebase';
 import toast from 'react-hot-toast';
 
-export default function Comment({
+export default function Comments({ postComments, post }) {
+  return (
+    <div className='bg-gray-200 p-2 mt-5'>
+      <h2 className='mb-5 text-2xl font-bold'>Comments</h2>
+      {postComments.map((comment, idx) => {
+        return (
+          <Comment
+            key={idx}
+            {...comment}
+            postSlug={post.slug}
+            postUid={post.uid}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+function Comment({
   username,
   content,
   createdAt,
@@ -74,13 +92,13 @@ export default function Comment({
   };
 
   return (
-    <div className='mb-4 border border-black p-4 flex justify-between items-center'>
-      <div>
+    <div className='mb-4 border border-black p-4 flex flex-col lg:flex-row justify-between '>
+      <div className='overflow-y-hidden'>
         <Link href={`/${username}`}>
           <a className='text-blue-900 italic font-bold'>@{username}</a>
         </Link>
         {!editMode ? (
-          <h4 className='text-xl leading-5 my-1'>{newContent}</h4>
+          <p className='lg:text-xl leading-5 my-1'>{content}</p>
         ) : (
           <input
             ref={inputRef}
@@ -96,19 +114,22 @@ export default function Comment({
       </div>
 
       {auth?.currentUser?.uid === uid && (
-        <div>
-          <button className='btn text-lg py-2 px-4' onClick={deleteComment}>
+        <div className='mt-2'>
+          <button
+            className='btn text-sm lg:text-lg py-2 px-4'
+            onClick={deleteComment}
+          >
             Delete
           </button>
           <button
-            className='btn text-lg py-2 px-4 mx-2'
+            className='btn text-sm lg:text-lg py-2 px-4 mx-2'
             onClick={updateComment}
           >
             {editMode ? 'Submit' : 'Edit'}
           </button>
           {editMode && (
             <button
-              className='btn text-lg py-2 px-4'
+              className='btn text-sm lg:text-lg py-2 px-4'
               onClick={() => setEditMode(false)}
             >
               Cancel
