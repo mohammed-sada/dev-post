@@ -3,7 +3,7 @@ import { useDocument } from 'react-firebase-hooks/firestore';
 import { auth, firestore, increment } from '../lib/firebase';
 
 export default function HeartButton({ postRef }) {
-  const uid = auth.currentUser.uid;
+  const uid = auth?.currentUser?.uid;
   const heartRef = postRef.collection('hearts').doc(uid);
   const [heartDoc] = useDocument(heartRef); // Listen to heart document for currently logged in user
 

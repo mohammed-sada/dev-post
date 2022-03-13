@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { auth, firestore, increment, serverTimestamp } from '../lib/firebase';
 
-export default function CommentForm({ postSlug, postUid }) {
+export default function CommentForm({ post }) {
   const [comment, setComment] = useState('');
 
   const handleSubmit = async (e) => {
@@ -16,17 +16,17 @@ export default function CommentForm({ postSlug, postUid }) {
 
       const commentRef = firestore
         .collection('users')
-        .doc(postUid)
+        .doc(post.uid)
         .collection('posts')
-        .doc(postSlug)
+        .doc(post.slug)
         .collection('comments')
         .doc();
 
       const postRef = firestore
         .collection('users')
-        .doc(postUid)
+        .doc(post.uid)
         .collection('posts')
-        .doc(postSlug);
+        .doc(post.slug);
 
       const commentData = {
         content: comment,

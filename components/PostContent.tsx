@@ -21,7 +21,7 @@ export default function PostContent({ post, postComments }) {
           </div>
         }
       >
-        <CommentForm postSlug={post.slug} postUid={post.uid} />
+        <CommentForm post={post} />
       </AuthCheck>
 
       {postComments?.length > 0 && (

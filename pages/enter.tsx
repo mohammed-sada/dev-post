@@ -6,12 +6,17 @@ import { UserContext } from '../lib/contex';
 import { auth, firestore, googleAuthProvider } from '../lib/firebase';
 import Loader from '../components/Loader';
 import Metatags from '../components/Metatags';
+import { useRouter } from 'next/router';
 
 export default function EnterPage() {
+  const router = useRouter();
   const { user, username, loading } = useContext(UserContext);
 
   if (loading) {
     return <Loader fullPage />;
+  }
+  if (username) {
+    router.replace('/');
   }
   return (
     <section className='m-10 px-6'>

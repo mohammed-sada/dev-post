@@ -6,7 +6,9 @@ import toast from 'react-hot-toast';
 export default function Comments({ postComments, post }) {
   return (
     <div className='bg-gray-200 p-2 mt-5'>
-      <h2 className='mb-5 text-2xl font-bold'>Comments</h2>
+      <h2 className='mb-5 text-2xl font-semibold'>
+        Comments: {post.commentCount}
+      </h2>
       {postComments.map((comment, idx) => {
         return (
           <Comment
@@ -92,7 +94,7 @@ function Comment({
   };
 
   return (
-    <div className='mb-4 border border-black p-4 flex flex-col lg:flex-row justify-between '>
+    <div className='mb-4 border border-black p-4 flex flex-col lg:flex-row justify-between lg:items-center'>
       <div className='overflow-y-hidden'>
         <Link href={`/${username}`}>
           <a className='text-blue-900 italic font-bold'>@{username}</a>

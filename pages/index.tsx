@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { useState } from 'react';
 
 import { firestore, fromMillis, docToJson } from '../lib/firebase';
