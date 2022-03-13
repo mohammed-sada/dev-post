@@ -19,7 +19,7 @@ export default function EnterPage() {
     router.replace('/');
   }
   return (
-    <section className='m-10 px-6'>
+    <section className='m-10 lg:px-6'>
       <Metatags title='Enter' />
       {!user ? <SignInButton /> : !username && <UsernameForm />}
     </section>
@@ -46,7 +46,7 @@ function SignInButton() {
   return (
     <div className='flex flex-col justify-center items-center'>
       <button
-        className='text-3xl font-extralight bg-black text-white py-4 px-6 flex justify-between items-center w-2/3'
+        className='text-xl lg:text-3xl flex items-center btn w-full lg:w-2/3'
         onClick={signIn}
       >
         <Image
@@ -55,13 +55,13 @@ function SignInButton() {
           width='30'
           height='30'
         />
-        <p className='ml-4 w-full text-center'>Sign In With Google</p>
+        <p className='w-full text-center'>Sign In With Google</p>
       </button>
       <button
-        className=' mt-4 text-3xl font-extralight bg-black text-white py-4 px-6 flex justify-between items-center w-2/3'
+        className='mt-4 text-xl lg:text-3xl btn w-full lg:w-2/3'
         onClick={signInAnonymously}
       >
-        <p className='w-full text-center'> Sign In With Anonymously</p>
+        <p className='w-full text-center'> Sign In Anonymously</p>
       </button>
     </div>
   );

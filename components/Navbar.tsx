@@ -45,7 +45,9 @@ export default function Navbar() {
               </Link>
             </li>
             <li className='mr-6 text-center py-4 px-3 lg:px-6 bg-white text-black cursor-pointer'>
-              <button onClick={signOut}>Sign Out</button>
+              <button className='font-semibold' onClick={signOut}>
+                Log Out
+              </button>
             </li>
           </div>
         )}

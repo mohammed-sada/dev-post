@@ -34,9 +34,15 @@ function Post({ post, admin }) {
           {wordCount} words. {minutesToRead} min read
         </p>
         <div className='mt-4'>
-          {heartCount > 0 && <p>{heartCount} 💗 Hearts</p>}
+          {heartCount > 0 && (
+            <p>{heartCount > 1 ? `💗 ${heartCount} Hearts` : '💗 One Heart'}</p>
+          )}
           {commentCount > 0 && (
-            <p className='mt-2'>{commentCount} 🔖 Comments</p>
+            <p className='mt-2'>
+              {commentCount > 1
+                ? `🔖 ${heartCount} Comments`
+                : '🔖 One Comment'}
+            </p>
           )}
         </div>
       </footer>
