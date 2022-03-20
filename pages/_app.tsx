@@ -7,6 +7,13 @@ import Navbar from '../components/Navbar';
 import { UserContext } from '../lib/contex';
 import { useUserData } from '../lib/hooks';
 
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+export const stripePromise = loadStripe(
+  'pk_test_51KdIKiCUHvJiVG1cfAh6l3jZEfBRInQGKIdOjnlwxAUOfVFfIZlHPAJCM1IUtkN6BntY5aRl3Taj0vJ9foFCCKsQ00Wzp6hkD4'
+);
+
 NProgress.configure({
   minimum: 0.3,
   easing: 'ease',
@@ -20,11 +27,13 @@ Router.events.on('routeChangeError', () => NProgress.done());
 function MyApp({ Component, pageProps }) {
   const userData = useUserData();
   return (
-    <UserContext.Provider value={userData}>
-      <Toaster />
-      <Navbar />
-      <Component {...pageProps} />
-    </UserContext.Provider>
+    <Elements stripe={stripePromise}>
+      <UserContext.Provider value={userData}>
+        <Toaster />
+        <Navbar />
+        <Component {...pageProps} />
+      </UserContext.Provider>
+    </Elements>
   );
 }
 

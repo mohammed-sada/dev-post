@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 
 import { useDocumentData, useCollection } from 'react-firebase-hooks/firestore';
@@ -12,6 +12,7 @@ import {
   getUserDocFromUsername,
   docToJson,
 } from '../../lib/firebase';
+import { UserContext } from '../../lib/contex';
 
 export async function getStaticProps({ params }) {
   const { username, slug } = params;
@@ -35,6 +36,7 @@ export async function getStaticProps({ params }) {
   const commentsPath = postDoc.collection('comments').path;
   return {
     props: {
+      userDoc: userDoc.data(),
       post,
       postPath,
       commentsPath,
@@ -71,6 +73,7 @@ export default function PostPage(props) {
   );
 
   const post = realTimePost || props.post; // When realTimePost data is not fetched yet, fallback to the ssr data
+
   return (
     <div className='bg-gray-200 min-h-screen p-2 lg:p-10'>
       <Metatags title={post.title} description={post.content} />

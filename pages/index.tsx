@@ -31,6 +31,11 @@ export default function HomePage(props) {
 
   const getMorePosts = async () => {
     setLoading(true);
+    if (posts.length === 0) {
+      setPostsEnd(true);
+      setLoading(false);
+      return;
+    }
     try {
       const lastPost = posts[posts.length - 1];
       const cursor =
@@ -56,7 +61,7 @@ export default function HomePage(props) {
     }
   };
   return (
-    <div className='bg-gray-200 h-screen'>
+    <div className='pb-10 bg-gray-200 min-h-screen'>
       <Metatags title='Feed' />
       <Posts posts={posts} />
 

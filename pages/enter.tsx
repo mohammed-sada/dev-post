@@ -122,6 +122,7 @@ function UsernameForm() {
       const batch = firestore.batch();
       batch.set(userDoc, {
         username,
+        email: user.email,
         photoURL: user.photoURL,
         displayName: user.displayName,
       });

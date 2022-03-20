@@ -4,6 +4,7 @@ import { auth, firestore } from './firebase';
 
 export function useUserData() {
   const [user] = useAuthState(auth as any);
+  const [userData, setUserData] = useState(null);
   const [username, setUsername] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -14,6 +15,7 @@ export function useUserData() {
       const ref = firestore.collection('users').doc(user.uid);
       unsubscribe = ref.onSnapshot((doc) => {
         setUsername(doc.data()?.username);
+        setUserData(doc.data());
         setLoading(false);
       }); // When this user-doc changes, the callback will be triggered to provide the latest data
     } else {
@@ -24,5 +26,5 @@ export function useUserData() {
     return unsubscribe; // Unsubscribe to the real time data when this user document is no longer needed to avoid memory leaks
   }, [user]);
 
-  return { user, username, loading };
+  return { user, userData, username, loading };
 }

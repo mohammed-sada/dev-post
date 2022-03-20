@@ -4,4 +4,5 @@ export const UserContext = createContext({
   user: null,
   username: null,
   loading: false,
+  userData: null,
 });
