@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import debounce from 'lodash.debounce';
 
-import { UserContext } from '../lib/contex';
+import { UserContext } from '../lib/context';
 import { auth, firestore, googleAuthProvider } from '../lib/firebase';
 import Loader from '../components/Loader';
 import Metatags from '../components/Metatags';

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Link from 'next/link';
 
 import { useDocumentData, useCollection } from 'react-firebase-hooks/firestore';
@@ -12,7 +12,6 @@ import {
   getUserDocFromUsername,
   docToJson,
 } from '../../lib/firebase';
-import { UserContext } from '../../lib/contex';
 
 export async function getStaticProps({ params }) {
   const { username, slug } = params;

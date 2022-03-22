@@ -4,7 +4,7 @@ import { Router } from 'next/router';
 import NProgress from 'nprogress';
 import { Toaster } from 'react-hot-toast';
 import Navbar from '../components/Navbar';
-import { UserContext } from '../lib/contex';
+import { UserContext } from '../lib/context';
 import { useUserData } from '../lib/hooks';
 
 import { Elements } from '@stripe/react-stripe-js';

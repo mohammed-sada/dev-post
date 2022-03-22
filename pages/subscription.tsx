@@ -4,7 +4,7 @@ import { fetchFromApi } from '../lib/helpers';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 import AuthCheck from '../components/AuthCheck';
-import { UserContext } from '../lib/contex';
+import { UserContext } from '../lib/context';
 import Loader from '../components/Loader';
 import Metatags from '../components/Metatags';
 
@@ -33,8 +33,10 @@ function SubscribeToPlan({ userData }) {
   // Fetch current subscriptions from the API
   const getSubscriptions = async () => {
     if (userData) {
+      setLoading(true);
       const subs = await fetchFromApi('subscriptions', { method: 'GET' });
       setSubscriptions(subs);
+      setLoading(false);
     }
   };
 
@@ -148,33 +150,40 @@ function SubscribeToPlan({ userData }) {
           </div>
         </form>
       </div>
-      <div className='text-center mt-10' hidden={subscriptions.length === 0}>
-        <h3 className='text-2xl'>Manage Current Subscription</h3>
+      <div className='text-center mt-10' hidden={subscriptions?.length === 0}>
         <div>
-          {subscriptions.map((sub) => {
-            return (
-              <div
-                key={sub.id}
-                className='mt-4 flex flex-col justify-center items-center'
-              >
-                <h1 className='font-bold text-lg'>Pro Plan</h1>
-                <p>
-                  Next payment of{' '}
-                  <span className='font-bold'>
-                    {(sub.plan.amount / 100).toFixed(2)}$
-                  </span>{' '}
-                  due {new Date(sub.current_period_end * 1000).toUTCString()}
-                </p>
-                <button
-                  className='btn block mt-4 bg-red-700'
-                  onClick={() => cancel(sub.id)}
-                  disabled={loading}
+          {!loading ? (
+            subscriptions?.map((sub) => {
+              return (
+                <div
+                  key={sub.id}
+                  className='mt-4 flex flex-col justify-center items-center'
                 >
-                  Cancel
-                </button>
-              </div>
-            );
-          })}
+                  <h3 className='mt-4 text-2xl'>Manage Current Subscription</h3>
+                  <h1 className='font-bold text-lg'>Pro Plan</h1>
+                  <p>
+                    Next payment of{' '}
+                    <span className='font-bold'>
+                      {(sub.plan.amount / 100).toFixed(2)}$
+                    </span>{' '}
+                    due {new Date(sub.current_period_end * 1000).toUTCString()}
+                  </p>
+                  <button
+                    className='btn block mt-4 bg-red-700'
+                    onClick={() => cancel(sub.id)}
+                    disabled={loading}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              );
+            })
+          ) : (
+            <div className='flex justify-center items-center'>
+              {' '}
+              <Loader />
+            </div>
+          )}
         </div>
       </div>
     </div>
