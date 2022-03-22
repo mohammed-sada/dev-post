@@ -6,7 +6,7 @@ import { auth, firestore, serverTimestamp } from '../../lib/firebase';
 import AuthCheck from '../../components/AuthCheck';
 import Posts from '../../components/Posts';
 import Metatags from '../../components/Metatags';
-import { UserContext } from '../../lib/contex';
+import { UserContext } from '../../lib/context';
 import { useRouter } from 'next/router';
 
 export default function AdminPostsPage() {
