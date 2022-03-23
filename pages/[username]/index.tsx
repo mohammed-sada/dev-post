@@ -20,7 +20,7 @@ export async function getServerSideProps({ query }) {
   }
 
   if (userDoc) {
-    const user = userDoc.data();
+    const user = { ...userDoc.data(), uid: userDoc.id };
 
     // Get the user's posts
     const collectionRef = userDoc.ref.collection('posts'); // posts collection nested under users collection

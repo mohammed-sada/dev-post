@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { auth, storage, STATE_CHANGED } from '../lib/firebase';
 import Loader from './Loader';
 
@@ -41,6 +42,10 @@ export default function ImageUploader() {
       });
   };
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(`![alt](${downloadURL})`);
+    toast.success('Coppied to clipboard');
+  };
   return (
     <div className='mb-4'>
       {uploading && (
@@ -65,7 +70,16 @@ export default function ImageUploader() {
       )}
 
       {downloadURL && (
-        <code className='overflow-x-auto p-2 text-sm bg-white block mt-4'>{`![alt](${downloadURL})`}</code>
+        <>
+          <code className='overflow-x-auto p-2 text-sm bg-white block mt-4'>{`![alt](${downloadURL})`}</code>
+          <button
+            className='btn bg-gray-800 text-sm mt-2'
+            onClick={copyToClipboard}
+            type='button'
+          >
+            Copy to clipboard
+          </button>
+        </>
       )}
     </div>
   );

@@ -2,12 +2,13 @@ import React, { useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { UserContext } from '../lib/context';
+import AuthCheck from './AuthCheck';
 
 export default function UserProfile({ user }) {
-  const { userData } = useContext(UserContext);
+  const { currentUserData } = useContext(UserContext);
   const proMember =
-    userData &&
-    userData.activePlans?.find(
+    currentUserData &&
+    currentUserData.activePlans?.find(
       (plan: string) =>
         plan === 'price_1KeiNNCUHvJiVG1c8YC4T3Y2' ||
         plan === 'price_1KeiNrCUHvJiVG1cHCJFAcxh'
@@ -25,15 +26,27 @@ export default function UserProfile({ user }) {
         {user.displayName}
       </h1>
 
-      <Link href='/subscription'>
-        <button className='btn mt-10 text-center text-2xl capitalize'>
-          <a>
-            {!proMember
-              ? 'subscribe and be a Pro member today'
-              : 'manage my subscription'}
-          </a>
-        </button>
-      </Link>
+      <AuthCheck
+        fallback={
+          <Link href='/enter'>
+            <a className='btn px-10 mt-10 text-center text-2xl flex justify-center'>
+              Sign in and be a member today
+            </a>
+          </Link>
+        }
+      >
+        {currentUserData?.uid === user.uid && (
+          <Link href='/subscription'>
+            <button className='btn mt-10 text-center text-2xl capitalize'>
+              <a>
+                {!proMember
+                  ? 'subscribe and be a Pro member today'
+                  : 'manage my subscription'}
+              </a>
+            </button>
+          </Link>
+        )}
+      </AuthCheck>
     </div>
   );
 }

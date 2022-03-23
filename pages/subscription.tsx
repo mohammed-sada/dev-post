@@ -8,10 +8,10 @@ import { UserContext } from '../lib/context';
 import Loader from '../components/Loader';
 import Metatags from '../components/Metatags';
 
-function SubscribeToPlan({ userData }) {
+function SubscribeToPlan({ currentUserData }) {
   const proMember =
-    userData &&
-    userData.activePlans?.find(
+    currentUserData &&
+    currentUserData.activePlans?.find(
       (plan: string) =>
         plan === 'price_1KeiNNCUHvJiVG1c8YC4T3Y2' ||
         plan === 'price_1KeiNrCUHvJiVG1cHCJFAcxh'
@@ -28,11 +28,11 @@ function SubscribeToPlan({ userData }) {
   useEffect(() => {
     getSubscriptions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData]);
+  }, [currentUserData]);
 
   // Fetch current subscriptions from the API
   const getSubscriptions = async () => {
-    if (userData) {
+    if (currentUserData) {
       setLoading(true);
       const subs = await fetchFromApi('subscriptions', { method: 'GET' });
       setSubscriptions(subs);
@@ -191,12 +191,12 @@ function SubscribeToPlan({ userData }) {
 }
 
 export default function Subscriptions() {
-  const { userData } = useContext(UserContext);
+  const { currentUserData } = useContext(UserContext);
   return (
     <AuthCheck>
       <Metatags title='Pro' description='Be a Pro member' />
-      {userData?.displayName ? (
-        <SubscribeToPlan userData={userData} />
+      {currentUserData?.displayName ? (
+        <SubscribeToPlan currentUserData={currentUserData} />
       ) : (
         <h2 className='p-10 text-center text-3xl font-semibold'>
           You must sign in using a real account to be a pro member
