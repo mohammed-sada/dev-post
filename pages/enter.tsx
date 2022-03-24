@@ -148,7 +148,7 @@ function UsernameForm() {
         <button
           type='submit'
           className='mt-6 py-4 px-6 bg-black text-white cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed'
-          disabled={!isValid}
+          disabled={!isValid || loading}
         >
           Choose
         </button>
