@@ -30,15 +30,18 @@ export async function getStaticProps({ params }) {
     };
   }
 
+  const heartsCollection = await postDoc.collection('hearts').get();
+  const postHearts = heartsCollection.docs.map((doc) => doc.data());
+
   post = docToJson(post);
   const postPath = postDoc.path;
   const commentsPath = postDoc.collection('comments').path;
   return {
     props: {
-      userDoc: userDoc.data(),
       post,
       postPath,
       commentsPath,
+      postHearts,
     },
     revalidate: 5000, // re-generate this post on the server when new req comes in, but only do so in a certain time intervals => every 5sec(in this case)
   };
@@ -93,6 +96,20 @@ export default function PostPage(props) {
             }
           >
             <HeartButton postRef={postRef} />
+
+            <div className='mt-4'>
+              <h3 className='capitalize font-semibold'>liked by:</h3>
+              {props.postHearts?.length > 0 &&
+                props.postHearts.map((heart) => {
+                  return (
+                    <Link key={heart.uid} href={`/${heart.username}`}>
+                      <a className='text-blue-900 italic block'>
+                        @{heart.username}
+                      </a>
+                    </Link>
+                  );
+                })}
+            </div>
           </AuthCheck>
         </aside>
       </div>

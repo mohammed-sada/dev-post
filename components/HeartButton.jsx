@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDocument } from 'react-firebase-hooks/firestore';
+import { UserContext } from '../lib/context';
 import { auth, firestore, increment } from '../lib/firebase';
 
 export default function HeartButton({ postRef }) {
+  const { currentUserData } = useContext(UserContext);
+
   const uid = auth?.currentUser?.uid;
   const heartRef = postRef.collection('hearts').doc(uid);
   const [heartDoc] = useDocument(heartRef); // Listen to heart document for currently logged in user
@@ -10,7 +13,7 @@ export default function HeartButton({ postRef }) {
   const addHeart = async () => {
     const batch = firestore.batch();
 
-    batch.set(heartRef, { uid });
+    batch.set(heartRef, { uid, username: currentUserData.username });
     batch.update(postRef, { heartCount: increment(1) });
 
     await batch.commit();
